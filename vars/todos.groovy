@@ -129,7 +129,7 @@ def call(Map params = [:]) {
                 stage('Upload Artifact') {
                     steps {
                         sh '''
-          curl -f -v -u admin:admin --upload-file frontend.zip http://${NEXUS_IP}:8081/repository/frontend/frontend.zip
+          curl -f -v -u admin:admin --upload-file ${COMPONENT}.zip http://${NEXUS_IP}:8081/repository/${COMPONENT}/${COMPONENT}.zip
 
            '''
                     }

@@ -14,9 +14,12 @@ def call(Map Params = [:]) {
         }
         stages {
             stage('Download Dependencies') {
+                when {
+                    environment name: 'COMPONENT', value: 'frontend'
+                }
                 steps {
                     sh '''
-                   echo ${COMPONENT}
+                   
          sudo npm install && sudo npm run build
        '''
                 }
@@ -27,7 +30,8 @@ def call(Map Params = [:]) {
                 }
                 steps {
                     sh '''
-             zip -r {COMPONENT}.zip node_modules dist  
+              echo ${COMPONENT}
+             zip -r ${COMPONENT}.zip node_modules dist  
           '''
                 }
             }

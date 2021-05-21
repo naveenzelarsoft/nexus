@@ -14,9 +14,7 @@ def call(Map Params = [:]) {
         }
         stages {
             stage('Download Dependencies') {
-                when {
-                    environment name: 'COMPONENT', value: 'frontend'
-                }
+                when { environment name: 'COMPONENT', value: 'frontend' }
                 steps {
                     sh '''
                    

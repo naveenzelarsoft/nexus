@@ -1,4 +1,4 @@
-def call(Map Params = [:]) {
+def call(Map params = [:]) {
     def args = [
             NEXUS_IP : '3.208.90.51',
     ]
@@ -8,6 +8,7 @@ def call(Map Params = [:]) {
             label 'DEV'
         }
         environment {
+            COMPONENT    = "${args.COMPONENT}"
             NEXUS_IP     = "${args.NEXUS_IP}"
             PROJECT_NAME = "${args.PROJECT_NAME}"
         }

@@ -16,8 +16,8 @@ def call(Map Params = [:]) {
         stages {
             stage('Download Dependencies') {
                 steps {
-                    echo ${COMPONENT}
                     sh '''
+                   echo ${COMPONENT}
          sudo npm install && sudo npm run build
        '''
                 }

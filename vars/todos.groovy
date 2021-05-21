@@ -5,7 +5,7 @@ def call(Map Params = [:]) {
     args << params
     pipeline {
         agent {
-            label 'dev'
+            label 'DEV'
         }
         environment {
             COMPONENT    = "${args.COMPONENT}"

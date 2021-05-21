@@ -21,7 +21,7 @@ def () {
             stage ('Upload Artifact') {
                 steps {
                     sh '''
-          curl -f -v -u admin:admin --upload-file frontend.zip http://3.208.90.51:8081/repository/frontend/frontend.zip
+          curl -f -v -u admin:admin --upload-file frontend.zip http://52.3.229.32:8081/repository/frontend/frontend.zip
 
            '''
                 }

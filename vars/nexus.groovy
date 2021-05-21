@@ -3,3 +3,10 @@ def nexus() {
     dif execute_state=sh(returnStdout: true, script: command)
 }
 
+def make_artifacts (APP_TYPE , COMPONENT) {
+    if (APP_TYPE == "NGINX")
+        command = "zip -r ${COMPONENT}.zip node_modules dist"
+    def execute_com = sh (returnnStdout : true , script : command)
+    print execute_com
+}
+

@@ -21,7 +21,7 @@ def call(Map params = [:]) {
         stages {
             stage('Download Dependencies-frontend') {
                 when {
-                    environment name: 'APP_TYPE', value: 'NPM'
+                    environment name: 'APP_TYPE', value: 'NGINX'
                 }
                 steps {
                     sh '''     
@@ -29,17 +29,7 @@ def call(Map params = [:]) {
                        '''
                 }
             }
-            stage('Prepare Artifacts-frontend') {
-                when {
-                    environment name: 'APP_TYPE', value: 'NPM'
-                }
-                steps {
-                    sh '''
-              echo ${COMPONENT}
-             zip -r ${COMPONENT}.zip node_modules dist  
-          '''
-                }
-            }
+
 
             stage('Get Dependencies') {
                 when {
@@ -125,6 +115,21 @@ def call(Map params = [:]) {
           '''
                     }
                 }
+
+            stage('Prepare Artifacts') {
+                when {
+                    environment name: 'APP_TYPE', value: 'NGINX'
+                }
+                steps {
+                    script {
+                        prepare = new nexus()
+                        prepare.make_artifacts "${COMPONENT}"
+                    }
+                    sh '''
+                      ls 
+                    '''
+                }
+            }
 
                 stage('Upload Artifact') {
                     steps {

@@ -5,12 +5,13 @@ def call(Map params = [:]) {
     args << params
     pipeline {
         agent {
-            label 'DEV'
+            label "${args.SLAVE_LABEL}"
         }
         environment {
             COMPONENT    = "${args.COMPONENT}"
             NEXUS_IP     = "${args.NEXUS_IP}"
             PROJECT_NAME = "${args.PROJECT_NAME}"
+            SLAVE_LABEL  = "${args.SLAVE_LABEL}"
         }
         stages {
             stage('Download Dependencies') {

@@ -14,12 +14,13 @@ def call(Map Params = [:]) {
         }
         stages {
             stage('Download Dependencies') {
-                when { environment name: 'COMPONENT', value: 'frontend' }
+                when {
+                    environment name: 'COMPONENT', value: 'frontend'
+                }
                 steps {
-                    sh '''
-                   
-         sudo npm install && sudo npm run build
-       '''
+                    sh '''     
+                          sudo npm install && sudo npm run build
+                       '''
                 }
             }
             stage ('Prepare Artifacts') {

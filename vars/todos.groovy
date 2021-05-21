@@ -7,6 +7,13 @@ def call(Map params = [:]) {
         agent {
             label "${args.SLAVE_LABEL}"
         }
+        tools {
+            when {
+                environment name: 'APP_TYPE', value: 'MAVEN'
+            }
+            maven 'mvn3.6.3'
+
+        }
         environment {
             COMPONENT    = "${args.COMPONENT}"
             NEXUS_IP     = "${args.NEXUS_IP}"
@@ -77,7 +84,51 @@ def call(Map params = [:]) {
                 }
             }
 
+            stages {
+                stage ('Download Dependencies') {
+                    when {
+                        environment name: 'APP_TYPE', value: 'NODEJS'
+                    }
 
+                    steps {
+                        sh '''
+           npm install
+         '''
+                    }
+                }
+                stage ('Prepare Artifacts') {
+
+                    when {
+                        environment name: 'APP_TYPE', value: 'NODEJS'
+                    }
+                    steps {
+                        sh '''
+              zip -r todo.zip node_modules server.js
+          '''
+                    }
+                }
+
+                stage ('Build Project'){
+                    when {
+                        environment name: 'APP_TYPE', value: 'MAVEN'
+                    }
+                    steps {
+                        sh '''
+          mvn clean package
+          '''
+                    }
+                }
+                stage ('Prepare Artifacts') {
+                    when {
+                        environment name: 'APP_TYPE', value: 'MAVEN'
+                    }
+                    steps {
+                        sh '''
+            cp target/users-api-0.0.1.jar users.jar
+            zip -r users.zip users.jar
+          '''
+                    }
+                }
 
             stage ('Upload Artifact') {
                 steps {

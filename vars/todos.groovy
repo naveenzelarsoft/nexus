@@ -19,7 +19,7 @@ def call(Map params = [:]) {
             APP_TYPE = "${args.APP_TYPE}"
         }
         stages {
-            stage('Download Dependencies') {
+            stage('Download Dependencies-frontend') {
                 when {
                     environment name: 'APP_TYPE', value: 'NPM'
                 }
@@ -81,7 +81,7 @@ def call(Map params = [:]) {
                 }
             }
 
-                stage('Download Dependencies') {
+                stage('Download Dependencies-todo') {
                     when {
                         environment name: 'APP_TYPE', value: 'NODEJS'
                     }
@@ -92,7 +92,7 @@ def call(Map params = [:]) {
          '''
                     }
                 }
-                stage('Prepare Artifacts') {
+                stage('Prepare Artifacts-todo') {
 
                     when {
                         environment name: 'APP_TYPE', value: 'NODEJS'
@@ -114,7 +114,7 @@ def call(Map params = [:]) {
           '''
                     }
                 }
-                stage('Prepare Artifacts') {
+                stage('Prepare Artifacts-users') {
                     when {
                         environment name: 'APP_TYPE', value: 'MAVEN'
                     }

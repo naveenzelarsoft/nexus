@@ -8,9 +8,6 @@ def call(Map params = [:]) {
             label "${args.SLAVE_LABEL}"
         }
         tools {
-            when {
-                environment name: 'APP_TYPE', value: 'MAVEN'
-            }
             maven 'mvn3.6.3'
 
         }

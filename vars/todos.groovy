@@ -1,8 +1,8 @@
 def call(Map Params = [:]) {
     def args = [
-            NEXUS_IP : "3.208.90.51",
+            NEXUS_IP : '3.208.90.51',
     ]
-    args <<params
+    args << params
     pipeline {
         agent {
             label "${args.SLAVE_LABEL}"

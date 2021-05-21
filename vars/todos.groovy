@@ -81,7 +81,6 @@ def call(Map params = [:]) {
                 }
             }
 
-            stages {
                 stage('Download Dependencies') {
                     when {
                         environment name: 'APP_TYPE', value: 'NODEJS'
@@ -138,4 +137,3 @@ def call(Map params = [:]) {
             }
         }
     }
-}

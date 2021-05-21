@@ -60,16 +60,6 @@ def call(Map params = [:]) {
           '''
                 }
             }
-            stage('Prepare Artifacts-login') {
-                when {
-                    environment name: 'APP_TYPE', value: 'GOLANG'
-                }
-                steps {
-                    sh '''
-             zip -r ${COMPONENT}.zip Login
-          '''
-                }
-            }
 
                 stage('Download Dependencies-todo') {
                     when {
@@ -82,17 +72,6 @@ def call(Map params = [:]) {
          '''
                     }
                 }
-                stage('Prepare Artifacts-todo') {
-
-                    when {
-                        environment name: 'APP_TYPE', value: 'NODEJS'
-                    }
-                    steps {
-                        sh '''
-              zip -r todo.zip node_modules server.js
-          '''
-                    }
-                }
 
                 stage('Build Project') {
                     when {
@@ -101,17 +80,6 @@ def call(Map params = [:]) {
                     steps {
                         sh '''
           mvn clean package
-          '''
-                    }
-                }
-                stage('Prepare Artifacts-users') {
-                    when {
-                        environment name: 'APP_TYPE', value: 'MAVEN'
-                    }
-                    steps {
-                        sh '''
-            cp target/users-api-0.0.1.jar users.jar
-            zip -r users.zip users.jar
           '''
                     }
                 }

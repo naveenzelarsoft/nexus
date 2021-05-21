@@ -1,6 +1,6 @@
 def call(Map params = [:]) {
     def args = [
-            NEXUS_IP : '52.3.229.32',
+            NEXUS_IP: '52.3.229.32',
     ]
     args << params
     pipeline {
@@ -15,11 +15,11 @@ def call(Map params = [:]) {
 
         }
         environment {
-            COMPONENT    = "${args.COMPONENT}"
-            NEXUS_IP     = "${args.NEXUS_IP}"
+            COMPONENT = "${args.COMPONENT}"
+            NEXUS_IP = "${args.NEXUS_IP}"
             PROJECT_NAME = "${args.PROJECT_NAME}"
-            SLAVE_LABEL  = "${args.SLAVE_LABEL}"
-            APP_TYPE     = "${args.APP_TYPE}"
+            SLAVE_LABEL = "${args.SLAVE_LABEL}"
+            APP_TYPE = "${args.APP_TYPE}"
         }
         stages {
             stage('Download Dependencies') {
@@ -32,7 +32,7 @@ def call(Map params = [:]) {
                        '''
                 }
             }
-            stage ('Prepare Artifacts-frontend') {
+            stage('Prepare Artifacts-frontend') {
                 when {
                     environment name: 'APP_TYPE', value: 'NPM'
                 }
@@ -44,12 +44,12 @@ def call(Map params = [:]) {
                 }
             }
 
-            stage ('Get Dependencies'){
+            stage('Get Dependencies') {
                 when {
                     environment name: 'APP_TYPE', value: 'GOLANG'
                 }
 
-                steps{
+                steps {
                     sh '''
           go get github.com/dgrijalva/jwt-go
           go get github.com/labstack/echo
@@ -62,7 +62,7 @@ def call(Map params = [:]) {
                 }
             }
 
-            stage ('Build Packages'){
+            stage('Build Packages') {
                 when {
                     environment name: 'APP_TYPE', value: 'GOLANG'
                 }
@@ -73,7 +73,7 @@ def call(Map params = [:]) {
           '''
                 }
             }
-            stage ('Prepare Artifacts-login') {
+            stage('Prepare Artifacts-login') {
                 when {
                     environment name: 'APP_TYPE', value: 'GOLANG'
                 }
@@ -85,7 +85,7 @@ def call(Map params = [:]) {
             }
 
             stages {
-                stage ('Download Dependencies') {
+                stage('Download Dependencies') {
                     when {
                         environment name: 'APP_TYPE', value: 'NODEJS'
                     }
@@ -96,7 +96,7 @@ def call(Map params = [:]) {
          '''
                     }
                 }
-                stage ('Prepare Artifacts') {
+                stage('Prepare Artifacts') {
 
                     when {
                         environment name: 'APP_TYPE', value: 'NODEJS'
@@ -108,7 +108,7 @@ def call(Map params = [:]) {
                     }
                 }
 
-                stage ('Build Project'){
+                stage('Build Project') {
                     when {
                         environment name: 'APP_TYPE', value: 'MAVEN'
                     }
@@ -118,7 +118,7 @@ def call(Map params = [:]) {
           '''
                     }
                 }
-                stage ('Prepare Artifacts') {
+                stage('Prepare Artifacts') {
                     when {
                         environment name: 'APP_TYPE', value: 'MAVEN'
                     }
@@ -130,12 +130,13 @@ def call(Map params = [:]) {
                     }
                 }
 
-            stage ('Upload Artifact') {
-                steps {
-                    sh '''
+                stage('Upload Artifact') {
+                    steps {
+                        sh '''
           curl -f -v -u admin:admin --upload-file frontend.zip http://${NEXUS_IP}:8081/repository/frontend/frontend.zip
 
            '''
+                    }
                 }
             }
         }

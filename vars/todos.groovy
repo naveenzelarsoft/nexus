@@ -22,9 +22,12 @@ def call(Map Params = [:]) {
                 }
             }
             stage ('Prepare Artifacts') {
+                when {
+                    environment name: 'COMPONENT', value: 'frontend'
+                }
                 steps {
                     sh '''
-             zip -r frontend.zip node_modules dist
+             zip -r {COMPONENT}.zip node_modules dist  
           '''
                 }
             }

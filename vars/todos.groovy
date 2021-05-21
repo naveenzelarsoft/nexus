@@ -1,11 +1,22 @@
-def call () {
+def call(Map Params = [:]) {
+    def args = [
+            NEXUS_IP : "3.208.90.51",
+    ]
+    args <<parms
     pipeline {
         agent {
-            label 'dev'
+            label "${args.SLAVE_LABEL}"
+        }
+        environment {
+            COMPONENT    = "${args.COMPONENT}"
+            NEXUS_IP     = "${args.NEXUS_IP}"
+            PROJECT_NAME = "${args.PROJECT_NAME}"
+            SLAVE_LABEL  = "${args.SLAVE_LABEL}"
         }
         stages {
             stage('Download Dependencies') {
                 steps {
+                    echo ${COMPONENT}
                     sh '''
          sudo npm install && sudo npm run build
        '''
@@ -21,7 +32,7 @@ def call () {
             stage ('Upload Artifact') {
                 steps {
                     sh '''
-          curl -f -v -u admin:admin --upload-file frontend.zip http://52.3.229.32:8081/repository/frontend/frontend.zip
+          curl -f -v -u admin:admin --upload-file frontend.zip http://${NEXUS_IP}:8081/repository/frontend/frontend.zip
 
            '''
                 }

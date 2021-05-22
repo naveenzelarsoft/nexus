@@ -33,7 +33,7 @@ def code_build(APP_TYPE , COMPONENT) {
         print execute_com
     }
     else if (APP_TYPE == "GOLANG") {
-        command = "go build"
+        command = "  go get github.com/dgrijalva/jwt-go && go get github.com/labstack/echo && go get github.com/labstack/echo/middleware && go get github.com/labstack/gommon/log && go get github.com/openzipkin/zipkin-go && go get github.com/openzipkin/zipkin-go/middleware/http && go get github.com/openzipkin/zipkin-go/reporter/http &&  go build"
         def execute_com = sh(returnnStdout: true, script: command)
         print execute_com
     }

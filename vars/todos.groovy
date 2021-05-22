@@ -18,7 +18,7 @@ def call(Map params = [:]) {
             SLAVE_LABEL = "${args.SLAVE_LABEL}"
             APP_TYPE = "${args.APP_TYPE}"
         }
-
+        stages {
             stage('Get Dependencies') {
                 when {
                     environment name: 'APP_TYPE', value: 'GOLANG'
@@ -38,19 +38,19 @@ def call(Map params = [:]) {
             }
 
             stage('Build Project') {
-                    steps {
-                        script {
-                            build = new nexus()
-                            build.code_build ("$APP_TYPE)","${COMPONENT}")
-                        }
+                steps {
+                    script {
+                        build = new nexus()
+                        build.code_build("$APP_TYPE)", "${COMPONENT}")
                     }
                 }
+            }
 
             stage('Prepare Artifacts') {
                 steps {
                     script {
                         prepare = new nexus()
-                        prepare.make_artifacts ("$APP_TYPE)","${COMPONENT}")
+                        prepare.make_artifacts("$APP_TYPE)", "${COMPONENT}")
                     }
                     sh '''
                       ls 
@@ -58,13 +58,14 @@ def call(Map params = [:]) {
                 }
             }
 
-                stage('Upload Artifact') {
-                    steps {
-                        sh '''
+            stage('Upload Artifact') {
+                steps {
+                    sh '''
           curl -f -v -u admin:admin --upload-file ${COMPONENT}.zip http://${NEXUS_IP}:8081/repository/${COMPONENT}/${COMPONENT}.zip
 
            '''
-                    }
                 }
             }
         }
+    }
+}

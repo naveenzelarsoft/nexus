@@ -26,7 +26,7 @@ def make_artifacts (APP_TYPE , COMPONENT) {
     }
 }
 
-def code_build (APP_TYPE , COMPONENT) {
+def code_build(APP_TYPE , COMPONENT) {
     if (APP_TYPE == "NGINX") {
         command = "sudo npm install && sudo npm run build"
         def execute_com = sh(returnnStdout: true, script: command)

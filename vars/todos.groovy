@@ -1,6 +1,6 @@
 def call(Map params = [:]) {
     def args = [
-            NEXUS_IP: '52.3.229.32',
+            NEXUS_IP: '100.25.246.55',
     ]
     args << params
     pipeline {
@@ -18,18 +18,6 @@ def call(Map params = [:]) {
             SLAVE_LABEL = "${args.SLAVE_LABEL}"
             APP_TYPE = "${args.APP_TYPE}"
         }
-        stages {
-            stage('Download Dependencies-frontend') {
-                when {
-                    environment name: 'APP_TYPE', value: 'NGINX'
-                }
-                steps {
-                    sh '''     
-                          sudo npm install && sudo npm run build
-                       '''
-                }
-            }
-
 
             stage('Get Dependencies') {
                 when {
@@ -49,38 +37,12 @@ def call(Map params = [:]) {
                 }
             }
 
-            stage('Build Packages') {
-                when {
-                    environment name: 'APP_TYPE', value: 'GOLANG'
-                }
-
-                steps {
-                    sh '''
-           go build
-          '''
-                }
-            }
-
-                stage('Download Dependencies-todo') {
-                    when {
-                        environment name: 'APP_TYPE', value: 'NODEJS'
-                    }
-
+            stage('Build Project') {
                     steps {
-                        sh '''
-           npm install
-         '''
-                    }
-                }
-
-                stage('Build Project') {
-                    when {
-                        environment name: 'APP_TYPE', value: 'MAVEN'
-                    }
-                    steps {
-                        sh '''
-          mvn clean package
-          '''
+                        script {
+                            build = new nexus()
+                            build.code_build ("$APP_TYPE)","${COMPONENT}")
+                        }
                     }
                 }
 

@@ -26,3 +26,25 @@ def make_artifacts (APP_TYPE , COMPONENT) {
     }
 }
 
+def code_build (APP_TYPE , COMPONENT) {
+    if (APP_TYPE == "NGINX") {
+        command = "sudo npm install && sudo npm run build"
+        def execute_com = sh(returnnStdout: true, script: command)
+        print execute_com
+    }
+    else if (APP_TYPE == "GOLANG") {
+        command = "go build"
+        def execute_com = sh(returnnStdout: true, script: command)
+        print execute_com
+    }
+    else if (APP_TYPE == "NODEJS") {
+        command = "npm install"
+        def execute_com = sh(returnnStdout: true, script: command)
+        print execute_com
+    }
+    else if (APP_TYPE == "MAVEN") {
+        command = "mvn clean package"
+        def execute_com = sh(returnnStdout: true, script: command)
+        print execute_com
+    }
+}

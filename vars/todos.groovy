@@ -8,7 +8,7 @@ def call(Map params = [:]) {
             label "${args.SLAVE_LABEL}"
         }
         triggers {
-            pollSCM('*/30 * * * 1-5')
+            pollSCM('* * * * 1-5')
         }
 
         tools {

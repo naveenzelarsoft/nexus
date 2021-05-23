@@ -2,83 +2,38 @@ folder('CI-Pipeline') {
     displayName('CI Pipeline')
     description('CI Pipeline')
 }
-pipelineJob('CI-Pipeline/frontend') {
-    configure { flowdefinition ->
-        flowdefinition << delegate.'definition'(class:'org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition',plugin:'workflow-cps') {
-            'scm'(class:'hudson.plugins.git.GitSCM',plugin:'git') {
-                'userRemoteConfigs' {
-                    'hudson.plugins.git.UserRemoteConfig' {
-                        'url'('https://github.com/naveenzelarsoft/frontend.git')
-                    }
-                }
-                'branches' {
-                    'hudson.plugins.git.BranchSpec' {
-                        'name'('*/main')
-                    }
-                }
-            }
-            'scriptPath'('jenkinsfile')
-            'lightweight'(true)
-        }
-    }
-}
-pipelineJob('CI-Pipeline/Login') {
-    configure { flowdefinition ->
-        flowdefinition << delegate.'definition'(class:'org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition',plugin:'workflow-cps') {
-            'scm'(class:'hudson.plugins.git.GitSCM',plugin:'git') {
-                'userRemoteConfigs' {
-                    'hudson.plugins.git.UserRemoteConfig' {
-                        'url'('https://github.com/naveenzelarsoft/login.git')
-                    }
-                }
-                'branches' {
-                    'hudson.plugins.git.BranchSpec' {
-                        'name'('*/main')
+def component = ["frontend", "login", "users" , "todos"];
+
+def count=(component.size()-1)
+for (i in 0..count) {
+    def j=component[i]
+    pipelineJob("CI-Pipelines/${j}") {
+        configure { flowdefinition ->
+            flowdefinition / 'properties' << 'org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty' {
+                'triggers' {
+                    'hudson.triggers.SCMTrigger' {
+                        'spec'('*/30 * * * 1-5')
+                        'ignorePostCommitHooks'(false)
                     }
                 }
             }
-            'scriptPath'('jenkinsfile')
-            'lightweight'(true)
-        }
-    }
-}
-pipelineJob('CI-Pipeline/Users') {
-    configure { flowdefinition ->
-        flowdefinition << delegate.'definition'(class:'org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition',plugin:'workflow-cps') {
-            'scm'(class:'hudson.plugins.git.GitSCM',plugin:'git') {
-                'userRemoteConfigs' {
-                    'hudson.plugins.git.UserRemoteConfig' {
-                        'url'('https://github.com/naveenzelarsoft/users.git')
+            flowdefinition << delegate.'definition'(class:'org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition',plugin:'workflow-cps') {
+                'scm'(class:'hudson.plugins.git.GitSCM',plugin:'git') {
+                    'userRemoteConfigs' {
+                        'hudson.plugins.git.UserRemoteConfig' {
+                            'url'('https://github.com/naveenzelarsoft/'+j+'.git')
+                            'refspec'('\'+refs/tags/*\':\'refs/remotes/origin/tags/*\'')
+                        }
+                    }
+                    'branches' {
+                        'hudson.plugins.git.BranchSpec' {
+                            'name'('*/tags/*')
+                        }
                     }
                 }
-                'branches' {
-                    'hudson.plugins.git.BranchSpec' {
-                        'name'('*/main')
-                    }
-                }
+                'scriptPath'('Jenkinsfile')
+                'lightweight'(true)
             }
-            'scriptPath'('jenkinsfile')
-            'lightweight'(true)
-        }
-    }
-}
-pipelineJob('CI-Pipeline/Todos') {
-    configure { flowdefinition ->
-        flowdefinition << delegate.'definition'(class:'org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition',plugin:'workflow-cps') {
-            'scm'(class:'hudson.plugins.git.GitSCM',plugin:'git') {
-                'userRemoteConfigs' {
-                    'hudson.plugins.git.UserRemoteConfig' {
-                        'url'('https://github.com/naveenzelarsoft/todo.git')
-                    }
-                }
-                'branches' {
-                    'hudson.plugins.git.BranchSpec' {
-                        'name'('*/main')
-                    }
-                }
-            }
-            'scriptPath'('jenkinsfile')
-            'lightweight'(true)
         }
     }
 }

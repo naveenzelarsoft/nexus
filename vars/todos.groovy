@@ -7,9 +7,12 @@ def call(Map params = [:]) {
         agent {
             label "${args.SLAVE_LABEL}"
         }
+        triggers {
+            pollSCM('*/30 * * * 1-5')
+        }
+
         tools {
             maven 'mvn3.6.3'
-
         }
         environment {
             COMPONENT = "${args.COMPONENT}"
@@ -35,18 +38,15 @@ def call(Map params = [:]) {
                         prepare = new nexus()
                         prepare.make_artifacts("${APP_TYPE}", "${COMPONENT}")
                     }
-                    sh '''
-                      ls 
-                    '''
                 }
             }
 
             stage('Upload Artifact') {
                 steps {
-                    sh '''
-          curl -f -v -u admin:admin --upload-file ${COMPONENT}.zip http://${NEXUS_IP}:8081/repository/${COMPONENT}/${COMPONENT}.zip
-
-           '''
+                    script {
+                        prepare = new nexus()
+                        prepare.nexus(COMPONENT)
+                    }
                 }
             }
         }

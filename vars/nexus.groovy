@@ -1,9 +1,16 @@
-def nexus() {
+def nexus(COMPONENT) {
+    get_branch = "env | grep GIT_BRANCH | awk -F / '{print \$NF}' | xargs echo -n"
+    def get_branch_exec=sh(returnStdout: true, script: get_branch)
+    def FILENAME=COMPONENT+'-'+get_branch_exec+'.zip'
+
     command = "curl -f -v -u admin:admin --upload-file users.zip http://3.208.90.51:8081/repository/users/users.zip"
-    dif execute_state=sh(returnStdout: true, script: command)
+    def execute_state=sh(returnStdout: true, script: command)
 }
 
 def make_artifacts (APP_TYPE , COMPONENT) {
+    get_branch = "env | grep GIT_BRANCH | awk -F / '{print \$NF}' | xargs echo -n"
+    def get_branch_exec=sh(returnStdout: true, script: get_branch)
+    def FILENAME=COMPONENT+'-'+get_branch_exec+'.zip'
     if (APP_TYPE == "NGINX") {
         command = "zip -r ${COMPONENT}.zip node_modules dist"
         def execute_com = sh(returnnStdout: true, script: command)

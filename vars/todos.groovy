@@ -1,6 +1,6 @@
 def call(Map params = [:]) {
     def args = [
-            NEXUS_IP: '100.25.246.55',
+            NEXUS_IP: '172.31.8.2',
     ]
     args << params
     pipeline {

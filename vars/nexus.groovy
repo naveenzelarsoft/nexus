@@ -17,17 +17,17 @@ def make_artifacts (APP_TYPE , COMPONENT) {
         print execute_com
     }
     else if (APP_TYPE == "GOLANG") {
-        command = "zip -r ${FILENAME} login"
+        command = "zip -r ${FILENAME} *"
         def execute_com = sh(returnnStdout: true, script: command)
         print execute_com
     }
     else if (APP_TYPE == "NODEJS") {
-        command = "zip -r ${FILENAME} node_modules server.js"
+        command = "zip -r ${FILENAME} *"
         def execute_com = sh(returnnStdout: true, script: command)
         print execute_com
     }
     else if (APP_TYPE == "MAVEN") {
-        command = "cp target/*.jar ${COMPONENT}.jar && zip -r ${FILENAME} ${COMPONENT}.jar"
+        command = "cp target/*.jar ${COMPONENT}.jar && zip -r ${FILENAME} *"
         def execute_com = sh(returnnStdout: true, script: command)
         print execute_com
     }

@@ -1,0 +1,24 @@
+pipeline {
+    agent {
+        label "agent"
+        }
+       stages {
+        stage ('Find Then Server'){
+         steps{
+            sh 'echo'
+            }
+         }
+        stage('Deploy to DEV'){
+         when {....}
+         steps  {
+         sh 'Ansible-playbook'
+         }
+        }
+        stage('Deploy to PROD') {
+        when {....}
+        steps {
+         sh 'ansible-playbook'
+         }
+       }
+     }
+  }

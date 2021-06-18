@@ -2,6 +2,11 @@ pipeline {
     agent {
         label "agent"
         }
+        parameters{
+            choice(name: 'ENV', choices: ['dev', 'prod' ], description: 'Select Environment')
+            string(name: 'COMPONENT' , defaultvalue: '', description: 'which Component to deploy')
+            string(name: 'VERSION', defaultvalue:'', description: 'Which Version of Component to deploy')
+        }
        stages {
         stage ('Find Then Server'){
          steps{

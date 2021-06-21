@@ -2,6 +2,10 @@ pipeline {
     agent {
         label "Ansible"
         }
+        environment {
+         UBUNTU_CRED = credentials('UBUNTU_CRED')
+        }
+
         parameters{
             choice(name: 'ENV', choices: ['dev', 'prod' ], description: 'Select Environment')
             string(name: 'COMPONENT' , defaultValue: '', description: 'which Component to deploy')
@@ -22,7 +26,7 @@ pipeline {
              git branch: 'master' , url: "https://github.com/naveenzelarsoft/ansible.git"
              sh '''
                 ansible -m ping -i ips
-                ansible-playbook -i ips todo.yml -t ${COMPONENT} -e COMPONENT=${COMPONENT} -e ENV=${ENV} -e APPVERSION=${VERSION} -e ansible_password=DevOps321
+                ansible-playbook -i ips todo.yml -t ${COMPONENT} -e COMPONENT=${COMPONENT} -e ENV=${ENV} -e APPVERSION=${VERSION} -e ansible_password=${UBUNTU_CRED}
              '''
             }
         }

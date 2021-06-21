@@ -45,7 +45,7 @@ pipelineJob("Deployment Pipeline") {
                 }
                 'branches' {
                     'hudson.plugins.git.BranchSpec' {
-                        'name'('main')
+                        'name'('master')
                     }
                 }
             }

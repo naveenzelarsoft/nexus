@@ -16,13 +16,13 @@ pipeline {
         stage('Deploy to DEV'){
            when { environment name: 'ENV', value: 'dev' }
            steps {
-             sh 'Ansible-playbook'
+             echo 'Ansible-playbook'
             }
         }
         stage('Deploy to PROD') {
            when { environment name: 'ENV', value: 'prod' }
            steps {
-              sh 'ansible-playbook'
+              echo 'ansible-playbook'
              }
          }
      }

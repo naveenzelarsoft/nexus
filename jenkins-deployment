@@ -8,6 +8,7 @@ pipeline {
             string(name: 'VERSION', defaultValue:'', description: 'Which Version of Component to deploy')
         }
        stages {
+
         stage('Find Then Server'){
                    steps {
                     sh 'aws s3 ls'

@@ -9,6 +9,12 @@ pipeline {
         }
        stages {
         stage('Find Then Server'){
+                   steps {
+                    sh 'aws s3 ls'
+                    }
+                 }
+
+        stage('Find Then Server'){
            steps {
             sh 'echo'
             }
@@ -16,13 +22,13 @@ pipeline {
         stage('Deploy to DEV'){
            when { environment name: 'ENV', value: 'dev' }
            steps {
-             echo 'Ansible-playbook'
+             sh 'Ansible-playbook'
             }
         }
         stage('Deploy to PROD') {
            when { environment name: 'ENV', value: 'prod' }
            steps {
-              echo 'ansible-playbook'
+              sh 'ansible-playbook'
              }
          }
      }

@@ -49,6 +49,15 @@ def call(Map params = [:]) {
                     }
                 }
             }
+           stage('Deploy to DEV Env'){
+               steps{
+                   script{
+                       get_branch = "env | grep GIT_BRANCH | awk -F / '{print \$NF}' | xargs echo -n"
+                       env. get_branch_exec=sh(returnStdout: true, script: get_branch)
+                       print "${get_branch_exec}"
+                   }
+               }
+           }
 
 
         }

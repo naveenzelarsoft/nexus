@@ -28,7 +28,7 @@ pipeline {
         stage('Deploy to PROD') {
            when { environment name: 'ENV', value: 'prod' }
            steps {
-              sh 'ansiblen --version'
+              sh 'ansible --version'
              }
          }
      }

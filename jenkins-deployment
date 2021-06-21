@@ -22,13 +22,13 @@ pipeline {
         stage('Deploy to DEV'){
            when { environment name: 'ENV', value: 'dev' }
            steps {
-             sh 'ansible-playbook -v '
+             sh 'ansible -v '
             }
         }
         stage('Deploy to PROD') {
            when { environment name: 'ENV', value: 'prod' }
            steps {
-              sh 'ansible-playbook -v '
+              sh 'ansiblen -v'
              }
          }
      }

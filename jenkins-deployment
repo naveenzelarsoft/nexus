@@ -21,7 +21,8 @@ pipeline {
            steps {
              git branch: 'master' , url: "https://github.com/naveenzelarsoft/ansible.git"
              sh '''
-                ansible-playbook -i 172.31.4.162 todo.yml -t ${COMPONENT} -e COMPONENT=${COMPONENT} -e ENV=${ENV} -e APPVERSION=${VERSION} -e ansible_password=DevOps321
+                ls
+                ansible-playbook -i ips todo.yml -t ${COMPONENT} -e COMPONENT=${COMPONENT} -e ENV=${ENV} -e APPVERSION=${VERSION} -e ansible_password=DevOps321
              '''
             }
         }

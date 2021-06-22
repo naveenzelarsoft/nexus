@@ -22,11 +22,13 @@ pipeline {
          }
         stage('Deploy to DEV'){
            when { environment name: 'ENV', value: 'dev' }
+           git branch: 'master' , url: "https://github.com/naveenzelarsoft/ansible.git"
            steps {
-             script {
-                   git branch: 'master' , url: "https://github.com/naveenzelarsoft/ansible.git"
-                   sh 'ansible-playbook -i ips -u ubuntu todo.yml -t ${COMPONENT} -e COMPONENT=${COMPONENT} -e ENV=${ENV} -e APPVERSION=${VERSION} -e ansible_password=DevOps321'
-                 }
+
+                   sh '''
+                   ansible-playbook -i ips -u ubuntu todo.yml -t ${COMPONENT} -e COMPONENT=${COMPONENT} -e ENV=${ENV} -e APPVERSION=${VERSION} -e ansible_password=${UBUNTU_CRED}
+                 '''
+
             }
         }
         stage('Deploy to PROD') {

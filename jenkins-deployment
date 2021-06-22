@@ -23,12 +23,9 @@ pipeline {
         stage('Deploy to DEV'){
            when { environment name: 'ENV', value: 'dev' }
            steps {
-             git branch: 'master' , url: "https://github.com/naveenzelarsoft/ansible.git"
              script {
-                   sh '''
-
-                                   ansible-playbook -i ips todo.yml -t ${COMPONENT} -e COMPONENT=${COMPONENT} -e ENV=${ENV} -e APPVERSION=${VERSION} -e ansible_password=${UBUNTU_CRED}
-                                '''
+                   git branch: 'master' , url: "https://github.com/naveenzelarsoft/ansible.git"
+                   sh ' ansible-playbook -i ips todo.yml -t ${COMPONENT} -e COMPONENT=${COMPONENT} -e ENV=${ENV} -e APPVERSION=${VERSION} -e ansible_password=${UBUNTU_CRED}'
                  }
             }
         }

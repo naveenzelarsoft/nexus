@@ -26,8 +26,8 @@ pipeline {
              git branch: 'master' , url: "https://github.com/naveenzelarsoft/ansible.git"
              script {
                    sh '''
-                                 ansible -m ping all
-                                   # ansible-playbook -i ips todo.yml -t ${COMPONENT} -e COMPONENT=${COMPONENT} -e ENV=${ENV} -e APPVERSION=${VERSION} -e ansible_password=${UBUNTU_CRED}
+
+                                   ansible-playbook -i ips todo.yml -t ${COMPONENT} -e COMPONENT=${COMPONENT} -e ENV=${ENV} -e APPVERSION=${VERSION} -e ansible_password=${UBUNTU_CRED}
                                 '''
                  }
             }

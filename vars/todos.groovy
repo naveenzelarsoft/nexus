@@ -7,9 +7,9 @@ def call(Map params = [:]) {
         agent {
             label "${args.SLAVE_LABEL}"
         }
-      triggers {
-            pollSCM('* * * * 1-5')
-        }
+//      triggers {
+//       pollSCM('* * * * 1-5')
+//        }
 
         tools {
             jdk 'jdk1.8'
@@ -44,14 +44,14 @@ def call(Map params = [:]) {
                 }
             }
 
-//            stage('Upload Artifact') {
-//                steps {
-//                    script {
-//                        prepare = new nexus()
-//                        prepare.nexus(COMPONENT)
-//                    }
-//                }
-//            }
+            stage('Upload Artifact') {
+               steps {
+                    script {
+                       prepare = new nexus()
+                        prepare.nexus(COMPONENT)
+                    }
+                }
+            }
            stage('Deploy to DEV Env'){
                steps{
                    script{

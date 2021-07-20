@@ -13,8 +13,7 @@ def call(Map params = [:]) {
 
         tools {
             jdk 'jdk1.8'
-            maven 'mvn3.6.3'
-            nodejs 'npm16.4.0'
+
         }
         environment {
             COMPONENT = "${args.COMPONENT}"

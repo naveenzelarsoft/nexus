@@ -1,6 +1,6 @@
 def call(Map params = [:]) {
     def args = [
-            NEXUS_IP: '172.31.8.2',
+            NEXUS_IP: '172.31.12.251',
     ]
     args << params
     pipeline {
@@ -14,7 +14,6 @@ def call(Map params = [:]) {
         tools {
             jdk 'jdk1.8'
             maven 'mvn3.6.3'
-            go 'go1.16.5'
             nodejs 'npm16.4.0'
         }
         environment {

@@ -22,7 +22,6 @@ pipeline {
          }
         stage('Deploy to DEV'){
            when { environment name: 'ENV', value: 'dev' }
-
            steps {
                  git branch: 'master' , url: "https://github.com/naveenzelarsoft/ansible.git"
                  sh '''

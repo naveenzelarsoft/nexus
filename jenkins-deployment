@@ -15,6 +15,9 @@ pipeline {
 
         stage('Find Then Server'){
            steps {
+           addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "ENV = ${ENV}"
+           addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "COMPONENT = ${COMPONENT}"
+           addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "VERSION = ${VERSION}"
             sh '''
             aws ec2 describe-instances --filters "Name=tag:Name,Values=${COMPONENT}-${ENV}" --region us-east-1 | jq .Reservations[].Instances[].PrivateIpAddress | xargs -n1 > ips
            '''
@@ -25,7 +28,7 @@ pipeline {
            steps {
                  git branch: 'master' , url: "https://github.com/naveenzelarsoft/ansible.git"
                  sh '''
-                   ansible-playbook -i ips -u ubuntu todo.yml -t ${COMPONENT} -e COMPONENT=${COMPONENT} -e ENV=${ENV} -e APPVERSION=${VERSION} -e ansible_password=${UBUNTU_CRED}
+                   ansible-playbook -i ips all -u ubuntu -t ${COMPONENT} -e COMPONENT=${COMPONENT} -e ENV=${ENV} -e APPVERSION=${VERSION} -e ansible_password=${UBUNTU_CRED} todo.yml
                  '''
             }
         }
